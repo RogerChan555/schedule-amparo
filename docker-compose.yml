@@ -1,0 +1,48 @@
+version: '3.3'
+
+services:
+  api:
+    container_name: api-scale
+    image: node:12
+    command: yarn dev
+    working_dir: /app
+    networks:
+      - base
+    ports:
+      - 3000:3030
+    volumes:
+      - ./api/:/app
+    env_file:
+      - envs/.api.env
+    depends_on:
+      - db
+
+  front:
+    container_name: front-scale
+    image: node:12
+    command: yarn start
+    working_dir: /app
+    ports:
+      - 80:3000
+    env_file:
+      - envs/.frontend.env
+    volumes:
+      - ./client/:/app
+
+  db:
+    container_name: db-scale
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - .data/db:/data/db
+    networks:
+      - base
+    env_file:
+      - envs/.api.env
+
+networks:
+  base:
+
+volumes:
+  db:
