@@ -2,14 +2,14 @@ version: '3.3'
 
 services:
   api:
-    container_name: api-scale
+    container_name: api-schedule
     image: node:12
     command: yarn dev
     working_dir: /app
     networks:
       - base
     ports:
-      - 3000:3030
+      - 3000:3000
     volumes:
       - ./api/:/app
     env_file:
@@ -18,7 +18,7 @@ services:
       - db
 
   front:
-    container_name: front-scale
+    container_name: front-schedule
     image: node:12
     command: yarn start
     working_dir: /app
@@ -30,7 +30,7 @@ services:
       - ./client/:/app
 
   db:
-    container_name: db-scale
+    container_name: db_schedule
     image: mongo
     ports:
       - '27017:27017'
